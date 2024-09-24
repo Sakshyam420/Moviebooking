@@ -1,0 +1,38 @@
+<html>
+<head>
+    <title>Movie Booking System</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>Movie Booking System</h1>
+    <ul>
+        <?php require_once 'booking.php'; $movies = getMovies(); ?>
+        <?php foreach ($movies as $movie) { ?>
+        <li>
+            <h2><?= $movie['title'] ?></h2>
+            <p><?= $movie['description'] ?></p>
+            <h3>Showtimes:</h3>
+            <ul>
+                <?php $showtimes = getShowtimes($movie['id']); ?>
+                <?php foreach ($showtimes as $showtime) { ?>
+                <li>
+                    <p>Date: <?= $showtime['date'] ?>, Time: <?= $showtime['time'] ?></p>
+                    <p>Available seats: <?= $showtime['available_seats'] ?></p>
+                    <form action="booking.php" method="post">
+                        <input type="hidden" name="showtime_id" value="<?= $showtime['id'] ?>">
+                        <label for="customer_name">Customer Name:</label>
+                        <input type="text" id="customer_name" name="customer_name"><br><br>
+                        <label for="customer_email">Customer Email:</label>
+                        <input type="email" id="customer_email" name="customer_email"><br><br>
+                        <label for="seats_booked">Seats to book:</label>
+                        <input type="number" id="seats_booked" name="seats_booked" min="1" max="<?= $showtime['available_seats'] ?>"><br><br>
+                        <input type="submit" name="book_seat" value="Book Seat">
+                    </form>
+                </li>
+                <?php } ?>
+            </ul>
+        </li>
+        <?php } ?>
+    </ul>
+</body>
+</html>

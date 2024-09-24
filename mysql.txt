@@ -1,0 +1,29 @@
+CREATE DATABASE movie_booking;
+USE movie_booking;
+
+CREATE TABLE movies (
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  title VARCHAR(255) NOT NULL,
+  description TEXT,
+  duration INT NOT NULL,
+  rating VARCHAR(10) NOT NULL
+);
+
+CREATE TABLE showtimes (
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  movie_id INT NOT NULL,
+  date DATE NOT NULL,
+  time TIME NOT NULL,
+  available_seats INT NOT NULL,
+  FOREIGN KEY (movie_id) REFERENCES movies(id)
+);
+
+CREATE TABLE bookings (
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  showtime_id INT NOT NULL,
+  customer_name VARCHAR(255) NOT NULL,
+  customer_email VARCHAR(255) NOT NULL,
+  seats_booked INT NOT NULL,
+  booking_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (showtime_id) REFERENCES showtimes(id)
+);
